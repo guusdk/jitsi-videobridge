@@ -59,6 +59,14 @@ public class Conference
         = Conference.class.getName() + ".endpoints";
 
     /**
+     * The name of the <tt>Conference</tt> property <tt>autorecord</tt> which
+     * determines if recording starts automatically in newly created
+     * conferences.
+     */
+    public static final String AUTORECORD_PROPERTY_NAME
+        = Conference.class.getName() + ".autorecord";
+
+    /**
      * The {@link Logger} used by the {@link Conference} class to print debug
      * information. Note that {@link Conference} instances should use {@link
      * #logger} instead.
@@ -259,6 +267,12 @@ public class Conference
 
         speechActivity = new ConferenceSpeechActivity(this);
         speechActivity.addPropertyChangeListener(propertyChangeListener);
+
+        String autoRecord = System.getProperty( AUTORECORD_PROPERTY_NAME );
+        if ( autoRecord != null && !autoRecord.trim().isEmpty() )
+        {
+            setRecording( Boolean.parseBoolean( autoRecord ) );
+        }
 
         if (enableLogging)
         {
